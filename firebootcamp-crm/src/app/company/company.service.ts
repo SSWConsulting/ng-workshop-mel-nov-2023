@@ -20,7 +20,13 @@ export class CompanyService {
       finalize(() => console.log("FINALIZE - Observable Completed"))
     )
   }
-  
+
+  getCompany(companyId: number): Observable<Company> {
+    return this.httpClient.get<Company>(`${this.API_BASE}/company/${companyId}`).pipe(
+      catchError(error => this.handleError(error)),
+    );
+  }
+
   deleteCompany(id: number): Observable<Company> {
     return this.httpClient.delete<Company>(`${this.API_BASE}/company/${id}`)
     .pipe(
