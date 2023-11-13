@@ -12,7 +12,7 @@ export class CompanyTableComponent {
   // @Input()
   // companies$!: Observable<Company[]>;
 
-  @Input()
+  @Input({ required: true })
   companies: Company[] = [];
 
   deleteCompany(company: Company) {
