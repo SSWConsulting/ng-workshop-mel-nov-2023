@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, DestroyRef, OnDestroy, OnInit, inject } from '@angular/core';
 import { Company } from '../company';
 import { CompanyService } from '../company.service';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'fbc-company-list',
@@ -8,14 +9,14 @@ import { CompanyService } from '../company.service';
   styleUrl: './company-list.component.scss'
 })
 export class CompanyListComponent implements OnInit {
-  companies: Company[] = [];
+  destoryRef = inject(DestroyRef);
+  // companies: Company[] = [];
+  companies$!: Observable<Company[]>;
 
   constructor(private companyService: CompanyService) {
   }
 
   ngOnInit(): void {
-
-    this.companyService.getCompanies()
-    .subscribe((companies: Company[]) => this.companies = companies)
+    this.companies$ = this.companyService.getCompanies()
   }
 }
