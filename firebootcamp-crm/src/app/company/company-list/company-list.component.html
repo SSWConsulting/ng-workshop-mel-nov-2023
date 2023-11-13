@@ -1,1 +1,26 @@
-<p>company-list works!</p>
+
+<!-- 
+<pre>
+    {{ companies | json }}
+</pre> -->
+
+<table>
+    <thead>
+        <th>
+            Name
+        </th>
+        <th>
+            Email
+        </th>
+        <th>
+            Phone
+        </th>
+    </thead>
+    <tbody>
+        <tr *ngFor="let company of companies">
+            <td> {{ company.name }} </td>
+            <td> {{ company.email }} </td>
+            <td> {{ company.phone }} </td>
+        </tr>
+    </tbody>
+</table>
