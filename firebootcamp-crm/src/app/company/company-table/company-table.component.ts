@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Company } from '../company';
 import { Observable } from 'rxjs';
 
@@ -9,15 +9,14 @@ import { Observable } from 'rxjs';
 })
 export class CompanyTableComponent {
 
-  // @Input()
-  // companies$!: Observable<Company[]>;
-
   @Input({ required: true })
   companies: Company[] = [];
 
+  @Output()
+  deleteButtonClicked: EventEmitter<Company> = new EventEmitter<Company>()
+
   deleteCompany(company: Company) {
-    // call our service somehow 
-    // probably send something to the parent component
+    this.deleteButtonClicked.emit(company);
   }
 
 }

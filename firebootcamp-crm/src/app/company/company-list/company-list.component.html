@@ -6,6 +6,8 @@
 
     <button class="btn btn-success float-right"> Add </button>
 
-    <fbc-company-table [companies]="(companies$ | async) || []"
+    <fbc-company-table 
+        [companies]="(companies$ | async) || []"
+        (deleteButtonClicked)="deleteCompany($event)"
     ></fbc-company-table>
 </div>
