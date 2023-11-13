@@ -20,10 +20,17 @@ export class CompanyService {
       finalize(() => console.log("FINALIZE - Observable Completed"))
     )
   }
+  
+  deleteCompany(id: number): Observable<Company> {
+    return this.httpClient.delete<Company>(`${this.API_BASE}/company/${id}`)
+    .pipe(
+      catchError(error => this.handleError(error)),
+    )
+  }
 
   handleError(error: Error) {
     console.error('Error handler', error);
-    return new Observable<Company[]>();
+    return new Observable<any>(); //TODO: Update - I should not be using "any"
   }
 
 }

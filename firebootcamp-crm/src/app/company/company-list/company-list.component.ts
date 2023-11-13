@@ -17,6 +17,17 @@ export class CompanyListComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.loadCompanies();
+  }
+
+  loadCompanies() {
     this.companies$ = this.companyService.getCompanies()
+  }
+
+  deleteCompany(company: Company){
+    this.companyService.deleteCompany(company.id)
+    .subscribe(
+      (deletedCompany) => this.loadCompanies()
+    ); // IMPORTANT
   }
 }
