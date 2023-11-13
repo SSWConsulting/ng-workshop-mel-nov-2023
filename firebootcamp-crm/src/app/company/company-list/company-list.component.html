@@ -4,9 +4,9 @@
         Companies
     </h1>
 
-    <button class="btn btn-success float-right"> Add </button>
+    <button class="btn btn-success float-right" [routerLink]="['/company/add']"> Add </button>
 
-    <fbc-company-table 
+    <fbc-company-table
         [companies]="(companies$ | async) || []"
         (deleteButtonClicked)="deleteCompany($event)"
     ></fbc-company-table>
