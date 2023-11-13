@@ -1,19 +1,21 @@
 import { Injectable } from '@angular/core';
 import { Company } from './company';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CompanyService {
 
-  constructor() { }
+  constructor(private httpClient: HttpClient) { }
 
-  getCompanies(): Company[] {
-    return [
-      { name: 'Company A', email:'companyA@ssw.com.au', phone: 12345 },
-      { name: 'Company B', email:'companyB@ssw.com.au', phone: 34567 },
-      { name: 'Company C', email:'companyC@ssw.com.au', phone: 45678 },
-    ];
+  getCompanies(): Observable<Company[]> {
+
+    // $ suffix just means it's an observable
+    var companies$ = this.httpClient.get<Company[]>('https://app-fbc-crm-api-prod.azurewebsites.net/api/company')
+
+    return companies$;
   }
 
 }

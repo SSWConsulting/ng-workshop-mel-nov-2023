@@ -14,6 +14,8 @@ export class CompanyListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.companies = this.companyService.getCompanies()
+
+    this.companyService.getCompanies()
+    .subscribe((companies: Company[]) => this.companies = companies);
   }
 }
