@@ -1,13 +1,17 @@
 <div class="container">
+  <h1>Companies</h1>
 
-    <h1>
-        Companies
-    </h1>
+  <button class="btn btn-success float-right" [routerLink]="['/company/add']">
+    Add
+  </button>
 
-    <button class="btn btn-success float-right" [routerLink]="['/company/add']"> Add </button>
+  <pre>
+  Company count: {{ companyCount$ | async }}
+</pre
+  >
 
-    <fbc-company-table
-        [companies]="(companies$ | async) || []"
-        (deleteButtonClicked)="deleteCompany($event)"
-    ></fbc-company-table>
+  <fbc-company-table
+    [companies]="(companies$ | async) || []"
+    (deleteButtonClicked)="deleteCompany($event)"
+  ></fbc-company-table>
 </div>

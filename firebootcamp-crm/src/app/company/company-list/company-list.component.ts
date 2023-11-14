@@ -2,6 +2,7 @@ import { Component, DestroyRef, OnDestroy, OnInit, inject } from '@angular/core'
 import { Company } from '../company';
 import { CompanyService } from '../company.service';
 import { Observable, Subscription } from 'rxjs';
+import { EventEmitter } from 'stream';
 
 @Component({
   selector: 'fbc-company-list',
@@ -12,6 +13,7 @@ export class CompanyListComponent implements OnInit {
   destoryRef = inject(DestroyRef);
   // companies: Company[] = [];
   companies$!: Observable<Company[]>;
+  companyCount$ = this.companyService.companyCount();
 
   constructor(private companyService: CompanyService) {
   }
@@ -28,7 +30,7 @@ export class CompanyListComponent implements OnInit {
     this.companyService.deleteCompany(company.id)
     .subscribe(
       (deletedCompany) => this.loadCompanies()
-    ); 
+    );
   }
 
 }

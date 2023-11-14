@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { CompanyService } from './company/company.service';
 
 @Component({
   selector: 'fbc-root',
@@ -10,6 +11,13 @@ export class AppComponent {
 
   title = 'Melbourne ☕';
   myDate = new Date();
+
+  companyCount$ = this.companyService.companyCount();
+
+  constructor(
+    private companyService: CompanyService,
+  ) {
+  }
 
   // Long way - don't use
   // valueChanged(event: any) {
