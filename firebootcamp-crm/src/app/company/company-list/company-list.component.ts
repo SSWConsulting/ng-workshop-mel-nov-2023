@@ -1,36 +1,30 @@
-import { Component, DestroyRef, OnDestroy, OnInit, inject } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Company } from '../company';
 import { CompanyService } from '../company.service';
 import { Observable, Subscription } from 'rxjs';
-import { EventEmitter } from 'stream';
 
 @Component({
   selector: 'fbc-company-list',
   templateUrl: './company-list.component.html',
-  styleUrl: './company-list.component.scss'
+  styleUrl: './company-list.component.scss',
 })
 export class CompanyListComponent implements OnInit {
-  destoryRef = inject(DestroyRef);
-  // companies: Company[] = [];
-  companies$!: Observable<Company[]>;
+  companies$ = this.companyService.getCompanies(); // Grabs the Behaviour Subject
   companyCount$ = this.companyService.companyCount();
 
-  constructor(private companyService: CompanyService) {
-  }
+  constructor(private companyService: CompanyService) {}
 
   ngOnInit(): void {
-    this.loadCompanies();
+    // this.loadCompanies();
   }
 
-  loadCompanies() {
-    this.companies$ = this.companyService.getCompanies()
-  }
+  // loadCompanies() {
+  //   this.companies$ = this.companyService.getCompanies()
+  // }
 
-  deleteCompany(company: Company){
-    this.companyService.deleteCompany(company.id)
-    .subscribe(
-      (deletedCompany) => this.loadCompanies()
-    );
+  deleteCompany(company: Company) {
+    this.companyService
+      .deleteCompany(company.id)
+      .subscribe(company => alert(`${company.name} was deleted`));
   }
-
 }

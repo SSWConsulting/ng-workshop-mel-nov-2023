@@ -1,13 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Company } from './company';
 import { HttpClient } from '@angular/common/http';
-import {
-  BehaviorSubject,
-  Observable,
-  catchError,
-  finalize,
-  map,
-} from 'rxjs';
+import { BehaviorSubject, Observable, catchError, finalize, map, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -36,7 +30,6 @@ export class CompanyService {
   }
 
   getCompanies(): Observable<Company[]> {
-    // TODO:
     return this.companies$;
   }
 
@@ -49,19 +42,28 @@ export class CompanyService {
   addCompany(company: Company): Observable<Company> {
     return this.httpClient
       .post<Company>(`${this.API_BASE}/company/`, company)
-      .pipe(catchError((error) => this.handleError(error)));
+      .pipe(
+        catchError((error) => this.handleError(error)),
+        tap((_) => this.loadCompanies())
+      );
   }
 
   updateCompany(company: Company): Observable<Company> {
     return this.httpClient
       .put<Company>(`${this.API_BASE}/company/${company.id}`, company)
-      .pipe(catchError((error) => this.handleError(error)));
+      .pipe(
+        catchError((error) => this.handleError(error)),
+        tap((_) => this.loadCompanies())
+      );
   }
 
   deleteCompany(id: number): Observable<Company> {
     return this.httpClient
       .delete<Company>(`${this.API_BASE}/company/${id}`)
-      .pipe(catchError((error) => this.handleError(error)));
+      .pipe(
+        catchError((error) => this.handleError(error)),
+        tap((_) => this.loadCompanies())
+      );
   }
 
   handleError(error: Error) {
