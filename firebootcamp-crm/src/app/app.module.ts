@@ -11,6 +11,8 @@ import { CompanyEditComponent } from './company/company-edit/company-edit.compon
 import { StoreModule } from '@ngrx/store';
 import { companyReducer } from './state/company.reducer';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { EffectsModule } from '@ngrx/effects';
+import { CompanyEffects } from './state/company.effects';
 
 @NgModule({
   declarations: [
@@ -29,7 +31,10 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
     StoreModule.forRoot({
       companies: companyReducer,
     }, {}),
-    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() })
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
+    EffectsModule.forRoot([
+      CompanyEffects
+    ])
   ],
   providers: [
     provideClientHydration(),

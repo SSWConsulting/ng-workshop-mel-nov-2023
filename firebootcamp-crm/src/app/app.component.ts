@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
-import { CompanyService } from './company/company.service';
+import { AppState } from './models/appState';
+import { Store } from '@ngrx/store';
+import { selectCompaniesCount } from './state/company.selectors';
 
 @Component({
   selector: 'fbc-root',
@@ -12,10 +14,10 @@ export class AppComponent {
   title = 'Melbourne ☕';
   myDate = new Date();
 
-  companyCount$ = this.companyService.companyCount();
+  companyCount$ = this.store.select(selectCompaniesCount);
 
   constructor(
-    private companyService: CompanyService,
+    private store: Store<AppState>,
   ) {
   }
 
