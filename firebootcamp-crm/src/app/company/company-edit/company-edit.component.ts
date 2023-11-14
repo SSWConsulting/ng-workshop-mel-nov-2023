@@ -17,6 +17,7 @@ import {
 })
 export class CompanyEditComponent implements OnInit {
   companyId!: number;
+  isNewCompany = false;
 
   form!: UntypedFormGroup;
 
@@ -29,12 +30,15 @@ export class CompanyEditComponent implements OnInit {
 
   ngOnInit(): void {
     this.companyId = +this.route.snapshot.params['id'];
+    this.isNewCompany = !this.companyId;
 
     this.buildForm();
 
-    this.companyService.getCompany(this.companyId).subscribe((company) => {
-      this.form.patchValue(company);
-    });
+    if (!this.isNewCompany) {
+      this.companyService.getCompany(this.companyId).subscribe((company) => {
+        this.form.patchValue(company);
+      });
+    }
   }
 
   buildForm() {
@@ -62,12 +66,20 @@ export class CompanyEditComponent implements OnInit {
 
   saveCompany() {
     const { valid, value } = this.form;
-    if (valid) {
+
+    if (!valid) {
+      return;
+    }
+
+    if (this.isNewCompany) {
+      this.companyService
+        .addCompany(value)
+        .subscribe(() => this.router.navigateByUrl('/company/list'));
+    } else {
       const updatedCompany = {
         id: this.companyId,
         ...value,
       };
-
       this.companyService
         .updateCompany(updatedCompany)
         .subscribe(() => this.router.navigateByUrl('/company/list'));
