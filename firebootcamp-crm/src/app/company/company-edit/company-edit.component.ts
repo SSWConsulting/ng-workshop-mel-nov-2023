@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CompanyService } from '../company.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Company } from '../company';
 import {
   FormBuilder,
@@ -22,6 +22,7 @@ export class CompanyEditComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private formBuilder: FormBuilder,
     private companyService: CompanyService
   ) {}
@@ -57,5 +58,19 @@ export class CompanyEditComponent implements OnInit {
       phone: [''],
       email: [''],
     });
+  }
+
+  saveCompany() {
+    const { valid, value } = this.form;
+    if (valid) {
+      const updatedCompany = {
+        id: this.companyId,
+        ...value,
+      };
+
+      this.companyService
+        .updateCompany(updatedCompany)
+        .subscribe(() => this.router.navigateByUrl('/company/list'));
+    }
   }
 }
