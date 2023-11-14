@@ -1,7 +1,17 @@
 import { Injectable } from '@angular/core';
 import { Company } from './company';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable, catchError, finalize, map, tap } from 'rxjs';
+import {
+  BehaviorSubject,
+  Observable,
+  catchError,
+  finalize,
+  map,
+  tap,
+} from 'rxjs';
+import { AppState } from '../models/appState';
+import { Store } from '@ngrx/store';
+import { loadCompanies } from '../state/company.actions';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +21,7 @@ export class CompanyService {
 
   private companies$ = new BehaviorSubject<Company[]>([]);
 
-  constructor(private httpClient: HttpClient) {
+  constructor(private httpClient: HttpClient, private store: Store<AppState>) {
     this.loadCompanies();
   }
 
@@ -26,7 +36,7 @@ export class CompanyService {
         catchError((error) => this.handleError(error)),
         finalize(() => console.log('FINALIZE - Observable Completed'))
       )
-      .subscribe((companies) => this.companies$.next(companies));
+      .subscribe((companies) => this.store.dispatch(loadCompanies(companies)));
   }
 
   getCompanies(): Observable<Company[]> {
