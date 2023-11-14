@@ -59,8 +59,19 @@ export class CompanyEditComponent implements OnInit {
     // formBuilder shorthand method
     this.form = this.formBuilder.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
+      checkPhone: [false],
       phone: [''],
       email: [''],
+    });
+
+    this.form.controls['checkPhone'].valueChanges.subscribe((checked) => {
+      const control = this.form.controls['phone'];
+      if (checked) {
+        control.setValidators([Validators.required]);
+      } else {
+        control.clearValidators();
+      }
+      control.updateValueAndValidity();
     });
   }
 
