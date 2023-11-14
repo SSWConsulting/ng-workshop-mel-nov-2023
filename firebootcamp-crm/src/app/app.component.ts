@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AppState } from './models/appState';
 import { Store } from '@ngrx/store';
 import { selectCompaniesCount } from './state/company.selectors';
+import { Observable } from 'rxjs';
+import { Company } from './company/company';
 
 @Component({
   selector: 'fbc-root',
@@ -9,16 +11,20 @@ import { selectCompaniesCount } from './state/company.selectors';
   styleUrls: ['./app.component.scss'],
   // template:'<div> Hello World </div>' // DONT DO THAT
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
 
-  title = 'Melbourne ☕';
+  title = 'Melbourne';
   myDate = new Date();
 
-  companyCount$ = this.store.select(selectCompaniesCount);
+  companyCount$!: Observable<number>;
 
   constructor(
     private store: Store<AppState>,
   ) {
+  }
+
+  ngOnInit(): void {
+    this.companyCount$ = this.store.select(selectCompaniesCount);
   }
 
   // Long way - don't use
